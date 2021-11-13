@@ -73,7 +73,7 @@ class Vampire {
       genXVamps = genXVamps.concat(descendant.allMillennialVampires)
 
     }
-    return this.allMillennialVampires;
+    return genXVamps;
   }
 
 
