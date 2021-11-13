@@ -21,14 +21,14 @@ class Vampire {
 
   // Returns the number of vampires away from the original vampire this vampire is
   get numberOfVampiresFromOriginal() {
-      let count = 0;
-      let ourVampire = this;
+    let count = 0;
+    let ourVampire = this;
 
-      while (ourVampire.creator) {
-        count = count + 1;
-        ourVampire = ourVampire.creator;
-      }
-      return count;
+    while (ourVampire.creator) {
+      count = count + 1;
+      ourVampire = ourVampire.creator;
+    }
+    return count;
   }
 
   // Returns true if this vampire is more senior than the other vampire. (Who is closer to the original vampire)
@@ -36,38 +36,47 @@ class Vampire {
     return (this.numberOfVampiresFromOriginal < vampire.numberOfVampiresFromOriginal);
   }
 
-  // Returns the vampire object with that name, or null if no vampire exists with that name
-  vampireWithName(name) {
-
-  }
-
-  // Returns the total number of vampires that exist
-  get totalDescendents() {
-
-  }
-
-  // Returns an array of all the vampires that were converted after 1980
-    get allMillennialVampires() {
-
-  }
-
-
   /** Tree traversal methods **/
 
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-
+    if (name === this.name) {
+      return this;
+    };
+    for (let descendant of this.offspring) {
+      if(descendant.vampireWithName(name)!== null)
+        return descendant.vampireWithName(name);
+    }
+    return null;
   }
 
   // Returns the total number of vampires that exist
   get totalDescendents() {
+    let numOfDesc = 0;
 
+    for (let num of this.offspring) {
+      numOfDesc = numOfDesc + 1
+      numOfDesc += num.totalDescendents;
+    }
+    return numOfDesc;
   }
 
   // Returns an array of all the vampires that were converted after 1980
   get allMillennialVampires() {
+    let genXVamps = [];
 
+    if (this.yearConverted >= 1980) {
+      genXVamps.push(this);
+    }
+
+    for (let descendant of this.offspring) {
+      genXVamps = genXVamps.concat(descendant.allMillennialVampires)
+
+    }
+    return this.allMillennialVampires;
   }
+
+
 
 
   /** Stretch **/
